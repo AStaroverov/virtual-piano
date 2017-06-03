@@ -6,7 +6,11 @@
       </div>
     </div>
     <div class="second">
-      <div v-for="text in musicalTexts" v-text="text" @click="open(text)">
+      <div
+        v-for="text in musicalTexts"
+        v-text="text"
+        @click="open(text)"
+      />
     </div>
   </div>
 </template>

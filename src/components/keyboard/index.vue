@@ -1,6 +1,6 @@
 <template>
   <div class="keyboard">
-    <vue-button v-for="button in keyboard" :button="button" />
+    <vue-button v-for="(button, index) in keyboard" key="index"  :button="button" />
   </div>
 </template>
 

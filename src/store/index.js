@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-Vue.use(Vuex)
-
 import keyboard from './modules/keyboard'
+
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
