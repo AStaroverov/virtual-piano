@@ -1,6 +1,5 @@
 <template>
   <div
-    class="container"
     :class="[typeClass, pressedClass]"
     @mousedown="play"
   />
@@ -48,14 +47,11 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  box-shadow: 0 0 1px 1px rgba(0,0,0, .5)
-}
-
 .white {
   width: calc(100% / 36);
   height: 100%;
   background-color: white;
+  box-shadow: 0 0 1px 1px rgba(0,0,0, .5);
 }
 
 .black {
@@ -71,9 +67,11 @@ export default {
   height: 75%;
   background-color: black;
   transform: translateX(-50%);
+  box-shadow: 0 0 1px 1px rgba(0,0,0, .5);
 }
 
-.pressed {
+.pressed,
+.pressed::before {
   transform-origin: top center;
 }
 
@@ -81,7 +79,7 @@ export default {
   transform: scale(.95);
 }
 
-.pressed.black {
+.pressed.black::before {
   transform: translateX(-50%) scale(.95);
 }
 

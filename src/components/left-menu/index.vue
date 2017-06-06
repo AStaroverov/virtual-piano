@@ -1,31 +1,18 @@
 <template>
   <div class="left-menu">
-    <div class="main">
-      <div class="source">
-        Musical texts
-      </div>
+    <div class="main-menu">
+      <router-link :to="{ name: 'musical-texts' }" class="source">
+        Musical
+        texts
+      </router-link>
     </div>
-    <div class="second">
-      <div
-        v-for="text in musicalTexts"
-        v-text="text"
-        @click="open(text)"
-      />
-    </div>
+    <router-view name="sub-menu" class="sub-menu" />
   </div>
 </template>
 
 <script>
-import musicalTexts from 'constants/musical-texts'
-
 export default {
-  name: 'left-menu',
-  data: () => ({ musicalTexts }),
-  methods: {
-    open (text) {
-      this.$router.push(`/musical-texts/${text}`)
-    }
-  }
+  name: 'left-menu'
 }
 </script>
 
@@ -35,15 +22,32 @@ export default {
   z-index: 100;
   top: 0;
   left: 0;
+}
+
+.main-menu,
+.sub-menu {
   display: flex;
+  padding: 10px;
   flex-direction: row;
-  width: 200px;
+  width: 100px;
   height: 100vh;
   background-color: #fff;
   box-shadow: 0 0 1px rgba(0, 0, 0, .5);
 }
 
+.main-menu {
+  position: absolute;
+  left: 0;
+}
+
+.sub-menu {
+  position: absolute;
+  left: 100px;
+}
+
 .source {
+  display: flex;
   padding: 10px;
+  cursor: pointer;
 }
 </style>
