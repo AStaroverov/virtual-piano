@@ -11,7 +11,7 @@ document.addEventListener('keyup', keyup)
 var shiftPressed = false
 
 function keydown (e) {
-  const keyCode = e.keyCode
+  var { key, keyCode } = e
 
   if (!keyCode) return
 
@@ -26,9 +26,10 @@ function keydown (e) {
 
   if (shiftPressed) {
     note.noteId = note.noteId + DIESE_SHIFT_ID
+    key = key.toUpperCase()
   }
 
-  store.commit(keyboardTypes.KEYDOWN, note)
+  store.commit(keyboardTypes.KEYDOWN, { ...note, key })
 }
 
 function keyup (e) {

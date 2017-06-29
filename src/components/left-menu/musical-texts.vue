@@ -2,6 +2,13 @@
   <div class="box">
     <router-link
       class="link"
+      :to="{ name: 'custom-text' }"
+      v-text=""
+    >
+      Custome text
+    </router-link>
+    <router-link
+      class="link"
       v-for="text in musicalTexts"
       :key="text"
       :to="{ name: 'musical-text', params: { name: text } }"
@@ -21,6 +28,7 @@ export default {
 
 <style mosules>
   .box {
-
+    display: flex;
+    flex-direction: column;
   }
 </style>

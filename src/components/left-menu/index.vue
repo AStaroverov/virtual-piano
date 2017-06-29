@@ -28,7 +28,6 @@ export default {
 .sub-menu {
   display: flex;
   padding: 10px;
-  flex-direction: row;
   width: 100px;
   height: 100vh;
   background-color: #fff;
@@ -38,6 +37,7 @@ export default {
 .main-menu {
   position: absolute;
   left: 0;
+  flex-direction: column;
 }
 
 .sub-menu {

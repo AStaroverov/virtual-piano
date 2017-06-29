@@ -1,17 +1,20 @@
 <template>
   <div class="container">
-    <vue-keyboard class="keyboard" />
+    <Keyboard />
+    <PressedNotes />
+    <HistoryNotes />
     <router-view name="lower-piano" class="lower-piano" />
   </div>
 </template>
 
 <script>
-import VueKeyboard from 'components/keyboard'
+import Keyboard from 'src/components/keyboard'
+import HistoryNotes from 'src/components/history-notes'
+import PressedNotes from 'src/components/pressed-notes'
 
 export default {
   name: 'container',
-  data: () => ({ }),
-  components: { VueKeyboard }
+  components: { Keyboard, HistoryNotes, PressedNotes }
 }
 </script>
 
