@@ -1,6 +1,6 @@
-import { SOUNDS_NOTES } from 'constants/paths'
-import { octavesId, notesId } from 'constants/notes'
-import sm from 'modules/sound-manager'
+import { SOUNDS_NOTES } from 'src/constants/paths'
+import { octavesId, notesId } from 'src/constants/notes'
+import sm from 'src/modules/sound-manager'
 
 const FILE_EXTENSHION = 'mp3'
 
