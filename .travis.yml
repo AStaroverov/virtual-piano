@@ -5,6 +5,7 @@ install:
   - npm install
 script:
   - npm run build
+  - mv .travis-gitignore .gitignore
 deploy:
   provider: pages
   skip_cleanup: true
