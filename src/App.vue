@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <vue-left-menu />
+    <!--<vue-left-menu />-->
     <vue-container />
   </div>
 </template>
 
 <script>
-import VueLeftMenu from 'components/left-menu'
-import VueContainer from 'components/container'
+//  import VueLeftMenu from 'src/components/left-menu/index.vue'
+  import VueContainer from 'src/components/container/index.vue'
 
 export default {
   name: 'app',
-  components: { VueLeftMenu, VueContainer }
+  components: { VueContainer }
 }
 </script>
 

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import musicalTexts from 'constants/musical-texts'
+import musicalTexts from 'src/constants/musical-texts'
 
 export default {
   name: 'musical-texts',

@@ -9,6 +9,7 @@ document.addEventListener('keydown', keydown)
 document.addEventListener('keyup', keyup)
 
 var shiftPressed = false
+var keyCodesPressed = new Set()
 
 function keydown (e) {
   var { key, keyCode } = e
@@ -20,16 +21,24 @@ function keydown (e) {
     return
   }
 
-  const note = { ...mapKeyCodeToNoteIdOctaveId[keyCode] }
+  if (keyCodesPressed.has(keyCode)) {
+    return
+  }
+
+  keyCodesPressed.add(keyCode)
+
+  const note = mapKeyCodeToNoteIdOctaveId[keyCode]
 
   if (!note) return
 
+  const copyNote = { ...note }
+
   if (shiftPressed) {
-    note.noteId = note.noteId + DIESE_SHIFT_ID
+    copyNote.noteId = copyNote.noteId + DIESE_SHIFT_ID
     key = key.toUpperCase()
   }
 
-  store.commit(keyboardTypes.KEYDOWN, { ...note, key })
+  store.commit(keyboardTypes.KEYDOWN, { ...copyNote, key, keyCode })
 }
 
 function keyup (e) {
@@ -39,15 +48,20 @@ function keyup (e) {
 
   if (keyCode === SHIFT_KEYCODE) {
     shiftPressed = false
+    return
   }
 
-  const note = { ...mapKeyCodeToNoteIdOctaveId[keyCode] }
+  keyCodesPressed.delete(keyCode)
+
+  const note = mapKeyCodeToNoteIdOctaveId[keyCode]
 
   if (!note) return
 
-  store.commit(keyboardTypes.KEYUP, note)
+  const copyNote = { ...note }
+
+  store.commit(keyboardTypes.KEYUP, copyNote)
 
   // for diese notes
-  note.noteId = note.noteId + DIESE_SHIFT_ID
-  store.commit(keyboardTypes.KEYUP, note)
+  copyNote.noteId = copyNote.noteId + DIESE_SHIFT_ID
+  store.commit(keyboardTypes.KEYUP, copyNote)
 }

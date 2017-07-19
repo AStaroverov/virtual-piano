@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { loadText } from 'actions/musical-texts'
+import { loadText } from 'src/actions/musical-texts'
 
 export default {
   name: 'musical-text',

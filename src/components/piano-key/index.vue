@@ -2,15 +2,16 @@
   <div
     :class="[typeClass, pressedClass]"
     @mousedown="play"
+    v-text="button.text"
   />
 </template>
 
 <script>
-import * as buttons from 'constants/buttons'
-import { KEYDOWN, KEYUP } from 'store/types/keyboard'
+import * as buttons from 'src/constants/buttons'
+import { KEYDOWN, KEYUP } from 'src/store/types/keyboard'
 
 export default {
-  name: 'button',
+  name: 'piano-key',
   props: {
     button: {
       required: true
@@ -47,31 +48,34 @@ export default {
 </script>
 
 <style scoped>
+.white,
+.black {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  cursor: pointer;
+  padding-bottom: 6px;
+  user-select: none;
+}
+
 .white {
-  width: calc(100% / 36);
+  z-index: 1;
   height: 100%;
   background-color: white;
   box-shadow: 0 0 1px 1px rgba(0,0,0, .5);
+  color: #ababab;
 }
 
 .black {
-  width: 0;
-  height: 75%;
-}
-
-.black::before {
-  content: '';
-  position: absolute;
   z-index: 2;
-  width: calc(100% / 45);
   height: 75%;
   background-color: black;
-  transform: translateX(-50%);
   box-shadow: 0 0 1px 1px rgba(0,0,0, .5);
+  color: #616161;
 }
 
-.pressed,
-.pressed::before {
+.pressed {
   transform-origin: top center;
 }
 
@@ -79,8 +83,8 @@ export default {
   transform: scale(.95);
 }
 
-.pressed.black::before {
-  transform: translateX(-50%) scale(.95);
+.pressed.black {
+  transform: scale(.95);
 }
 
 </style>

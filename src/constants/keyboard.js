@@ -1,13 +1,21 @@
 import flatten from 'lodash/flatten'
 import * as buttons from './buttons'
 import { octave, octavesId } from './notes'
+import { mapOctaveIdToNoteIdToChar } from './note-char'
 
 export default getKeyboard()
 
 function getKeyboard () {
   return flatten(octavesId.map(
     octaveId => {
-      return getButtonsForOctave().map((btn, i) => ({ ...btn, octaveId, noteId: octave[i].id }))
+      return getButtonsForOctave().map(
+        (btn, i) => ({
+          ...btn,
+          octaveId,
+          noteId: octave[i].id,
+          text: mapOctaveIdToNoteIdToChar[octaveId][octave[i].id]
+        })
+      )
     }
   ))
 }

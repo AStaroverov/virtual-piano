@@ -1,20 +1,26 @@
 <template>
   <div class="container">
-    <Keyboard />
-    <PressedNotes />
-    <HistoryNotes />
-    <router-view name="lower-piano" class="lower-piano" />
+    <div class="center">
+      <TrackRoad />
+      <Keyboard />
+    </div>
+    <PressedNotes class="row" />
+    <HistoryNotes class="row" />
+    <CustomText class="row" />
+    <!--<router-view name="lower-piano" class="lower-piano" />-->
   </div>
 </template>
 
 <script>
-import Keyboard from 'src/components/keyboard'
-import HistoryNotes from 'src/components/history-notes'
-import PressedNotes from 'src/components/pressed-notes'
+import Keyboard from 'src/components/keyboard/index.vue'
+import TrackRoad from 'src/components/track-road/index.vue'
+import HistoryNotes from 'src/components/history-notes/index.vue'
+import PressedNotes from 'src/components/pressed-notes/index.vue'
+import CustomText from 'src/components/custom-text'
 
 export default {
   name: 'container',
-  components: { Keyboard, HistoryNotes, PressedNotes }
+  components: { Keyboard, TrackRoad, HistoryNotes, PressedNotes, CustomText }
 }
 </script>
 
@@ -24,7 +30,17 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  padding-left: 100px;
+  padding: 10px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  margin: 10px;
 }
 
 .lower-piano {
