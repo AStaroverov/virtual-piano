@@ -1,11 +1,9 @@
 <template>
-  <div class="track-road">
-    <div
+  <div
     ref="graph"
     class='roads'
     :style="style"
-    />
-  </div>
+  />
 </template>
 
 <script>
@@ -90,18 +88,9 @@
 </script>
 
 <style scoped>
-  .track-road {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 0 10px;
-    background-color: black;
-  }
-
   .roads {
     width: 100%;
     height: 300px;
     transform: scale3d(1, -1, 1);
   }
-
 </style>

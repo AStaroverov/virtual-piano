@@ -1,8 +1,12 @@
 <template>
   <div class="container">
     <div class="center">
-      <TrackRoad />
-      <Keyboard />
+      <div class="wrapper black">
+        <TrackRoad />
+      </div>
+      <div class="wrapper">
+        <Keyboard />
+      </div>
     </div>
     <PressedNotes class="row" />
     <HistoryNotes class="row" />
@@ -37,6 +41,17 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.black {
+  background-color: black;
 }
 
 .row {

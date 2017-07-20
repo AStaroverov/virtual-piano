@@ -66,6 +66,5 @@ export default {
     display: flex;
     width: 100%;
     height: 150px;
-    padding: 0 10px;
   }
 </style>
