@@ -14,11 +14,11 @@ var webpackConfig = require('./webpack.prod.conf')
 var spinner = ora('building for production...')
 spinner.start()
 
-var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
+var assetsPath = path.join(config.build.assetsRoot)
 shell.rm('-rf', assetsPath)
 shell.mkdir('-p', assetsPath)
 shell.config.silent = true
-shell.cp('-R', 'static/*', assetsPath)
+shell.cp('-R', 'www/*', assetsPath)
 shell.config.silent = false
 
 webpack(webpackConfig, function (err, stats) {
