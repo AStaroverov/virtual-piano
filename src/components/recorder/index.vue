@@ -1,9 +1,9 @@
 <template>
   <div class="recorder">
-    <button v-if="!recording" class="button-record" @click="startRecord">Record</button>
-    <button v-if="recording" class="button-stop-record" @click="stopRecord">Stop</button>
-    <button v-if="!recording && track.length" class="button-save-record" @click="saveTrack">Save</button>
-    <div v-text="timeRecord | format" />
+    <button v-if="!recording" class="button" @click="startRecord">Record</button>
+    <button v-if="recording" class="button" @click="stopRecord">Stop</button>
+    <div class="time" v-text="withText(timeRecord)" />
+    <button v-if="!recording && track.length" class="button" @click="saveTrack">Save</button>
   </div>
 </template>
 
@@ -52,8 +52,8 @@
           this.timeRecord += 1
         }, 1000)
       },
-      format (text) {
-        return `§{text} sec`
+      withText (time) {
+        return `${time} sec`
       }
     }
   }
@@ -64,6 +64,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .time {
+    margin: 10px;
   }
 </style>

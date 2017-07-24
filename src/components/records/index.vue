@@ -1,11 +1,11 @@
 <template>
   <div class="records">
-    <Item
-      v-for="(record, index) in records"
-      :key="index"
-      :record="record"
-      class="record"
-    />
+    <div class="record" v-for="(record, index) in records">
+      <Item
+        :key="index"
+        :record="record"
+      />
+    </div>
   </div>
 </template>
 
@@ -26,10 +26,16 @@
 <style scoped>
   .records {
     display: flex;
-    padding: 20px;
+    padding: 5px;
+    margin-top: 20px;
+    overflow: auto;
+  }
+
+  .record {
+    padding: 5px;
   }
 
   .record + .record {
-    margin-left: 10px;
+    margin-left: 5x;
   }
 </style>

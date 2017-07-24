@@ -3,4 +3,5 @@ dist
 .idea/
 npm-debug.log
 .DS_Store
-yarn.lock
+/yarn.lock
+/package-lock.json
