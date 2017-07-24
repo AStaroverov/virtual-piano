@@ -22,14 +22,12 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     modules: [
-      resolve('src'),
       resolve('node_modules')
     ],
     alias: {
       'src': resolve('src'),
       'app': resolve('src'),
       'assets': resolve('src/assets'),
-      'components': resolve('src/components'),
       'static': resolve('static')
     }
   },

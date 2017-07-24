@@ -8,23 +8,20 @@
         <Keyboard />
       </div>
     </div>
-    <PressedNotes class="row" />
-    <HistoryNotes class="row" />
-    <CustomText class="row" />
-    <!--<router-view name="lower-piano" class="lower-piano" />-->
+    <Recorder />
+    <Records />
   </div>
 </template>
 
 <script>
 import Keyboard from 'src/components/keyboard/index.vue'
 import TrackRoad from 'src/components/track-road/index.vue'
-import HistoryNotes from 'src/components/history-notes/index.vue'
-import PressedNotes from 'src/components/pressed-notes/index.vue'
-import CustomText from 'src/components/custom-text'
+import Recorder from 'src/components/recorder/index.vue'
+import Records from 'src/components/records/index.vue'
 
 export default {
   name: 'container',
-  components: { Keyboard, TrackRoad, HistoryNotes, PressedNotes, CustomText }
+  components: { Keyboard, TrackRoad, Recorder, Records }
 }
 </script>
 

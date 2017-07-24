@@ -1,5 +1,5 @@
-import keyboard from 'constants/keyboard'
-import * as types from 'store/types/keyboard'
+import keyboard from 'src/constants/keyboard'
+import * as types from 'src/store/types/keyboard'
 
 const state = {
   buttons: [ ...keyboard ],

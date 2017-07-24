@@ -1,6 +1,6 @@
-import store from 'store'
+import store from 'src/store'
 import difference from 'lodash/difference'
-import { playNote } from 'actions/sounds/notes'
+import { playNote } from 'src/actions/sounds/notes'
 
 store.watch(
   state => state.keyboard.buttons,
