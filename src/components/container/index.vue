@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <BetaBanner class="beta-banner" />
     <div class="center">
       <div class="wrapper black">
         <TrackRoad />
@@ -14,24 +15,34 @@
 </template>
 
 <script>
-import Keyboard from 'src/components/keyboard/index.vue'
-import TrackRoad from 'src/components/track-road/index.vue'
-import Recorder from 'src/components/recorder/index.vue'
-import Records from 'src/components/records/index.vue'
+  import BetaBanner from 'src/components/beta-banner/index.vue'
+  import Keyboard from 'src/components/keyboard/index.vue'
+  import TrackRoad from 'src/components/track-road/index.vue'
+  import Recorder from 'src/components/recorder/index.vue'
+  import Records from 'src/components/records/index.vue'
 
-export default {
-  name: 'container',
-  components: { Keyboard, TrackRoad, Recorder, Records }
-}
+  export default {
+    name: 'container',
+    components: { BetaBanner, Keyboard, TrackRoad, Recorder, Records }
+  }
 </script>
 
 <style scoped>
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100vh;
   padding: 10px;
+}
+
+.beta-banner {
+  position: absolute;
+  z-index: 1;
+  top: 20px;
+  left: 0;
+  right: 0;
 }
 
 .center {
