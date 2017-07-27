@@ -8,21 +8,21 @@ export default function (store) {
     const { recorder } = store.state
 
     if (recorder.record && (mutation.type === keyboard.KEYDOWN || mutation.type === keyboard.KEYUP)) {
-      pushToTrack(store, mutation, recorder)
+      pushToTrack(store, mutation)
     }
 
-    if (mutation.type === records.ADD_TRACK) {
+    if (mutation.type === records.ADD_RECORD) {
       saveToLocal(store.state.records.list)
     }
   })
 }
 
-function pushToTrack (store, mutation, recorder) {
+function pushToTrack (store, mutation) {
   store.commit(record.PUSH_TO_TRACK, {
     type: mutation.type,
     payload: {
       ...mutation.payload,
-      time: Date.now() - recorder.timeStart
+      time: Date.now()
     }
   })
 }

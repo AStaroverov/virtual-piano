@@ -1,2 +1,2 @@
-export const RESET_TRACKS = 'recordsResetTracks'
-export const ADD_TRACK = 'recordsAddTrack'
+export const RESET_RECORDS = 'recordsResetTracks'
+export const ADD_RECORD = 'recordsAddTrack'

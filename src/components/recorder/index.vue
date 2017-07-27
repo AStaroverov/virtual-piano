@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import * as recordedTypes from 'src/store/types/recorder'
+  import * as recorderTypes from 'src/store/types/recorder'
   import * as recordsTypes from 'src/store/types/records'
 
   export default {
@@ -26,8 +26,8 @@
       startRecord () {
         const { commit } = this.$store
 
-        commit(recordedTypes.CLEAR_TRACK)
-        commit(recordedTypes.START_RECORD, { time: Date.now() })
+        commit(recorderTypes.CLEAR_TRACK)
+        commit(recorderTypes.START_RECORD)
 
         this.recording = true
         this.startIncreaseTimeRecord()
@@ -39,13 +39,13 @@
 
         const { commit } = this.$store
 
-        commit(recordedTypes.STOP_RECORD, { time: Date.now() })
+        commit(recorderTypes.STOP_RECORD)
       },
       saveTrack () {
-        const { commit } = this.$store
+        const { dispatch } = this.$store
         const title = prompt('Write title for track')
 
-        title && commit(recordsTypes.ADD_TRACK, { title, track: this.track })
+        title && dispatch(recordsTypes.ADD_RECORD, { title, track: this.track })
       },
       startIncreaseTimeRecord () {
         this.intervalIncreasing = setInterval(() => {
