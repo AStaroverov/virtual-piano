@@ -20,7 +20,6 @@ const mutations = {
 
     if (button) {
       button.isPressed = true
-      button.timePress = Date.now()
       button.key = key
     }
   },
