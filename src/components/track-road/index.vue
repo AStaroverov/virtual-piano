@@ -10,7 +10,7 @@
   import * as buttons from 'src/constants/buttons'
   import { mapColorHexToNoteId } from 'src/constants/note-color'
 
-  import { without } from 'lodash'
+  import { forEach, without } from 'lodash'
   import PIXI from 'src/pix'
   import KeyLine from 'src/graphic/key-line'
   import * as utils from 'src/utils/piano-key'
@@ -52,6 +52,7 @@
       pressedButtons (newV, oldV) {
         let big, small
 
+        // can create bugs
         if (newV.length > oldV.length) {
           big = newV
           small = oldV
@@ -60,29 +61,33 @@
           small = newV
         }
 
-        const button = without(big, ...small)[0]
-        const key = button.key
+        const buttons = without(big, ...small)
 
         if (newV.length > oldV.length) {
-          const x = utils.getPosition(button, this.whiteButtonWidth)
-          const width = button.typeId === buttons.WHITE_ID ? this.whiteButtonWidth : this.blackButtonWidth
-          const line = this.lines[key] = new KeyLine({
-            x,
-            y: 0,
-            width,
-            yDestroy: this.height,
-            color:  mapColorHexToNoteId[button.noteId]
-          })
-
-          this.app.stage.addChild(line)
-          line.startGrow()
+          forEach(buttons, this.addPressedButton)
         } else {
-          this.lines[key].stopGrow()
+          forEach(buttons, this.removePressedButton)
         }
       }
     },
     methods: {
+      addPressedButton (button) {
+        const x = utils.getPosition(button, this.whiteButtonWidth)
+        const width = button.typeId === buttons.WHITE_ID ? this.whiteButtonWidth : this.blackButtonWidth
+        const line = this.lines[button.key] = new KeyLine({
+          x,
+          y: 0,
+          width,
+          yDestroy: this.height,
+          color:  mapColorHexToNoteId[button.noteId]
+        })
 
+        this.app.stage.addChild(line)
+        line.startGrow()
+      },
+      removePressedButton (button) {
+        this.lines[button.key].stopGrow()
+      }
     }
   }
 </script>

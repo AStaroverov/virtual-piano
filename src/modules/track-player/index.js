@@ -1,3 +1,5 @@
+import { remove } from 'lodash'
+import * as types from 'src/store/types/keyboard'
 import store from 'src/store/index'
 
 export default class TrackPlayer {
@@ -10,6 +12,7 @@ export default class TrackPlayer {
     this.onStop = onStop
     this.onPause = onPause
 
+    this.nowPlaying = []
     this.requrcive = false
 
     this.recursivePlay = this.recursivePlay.bind(this)
@@ -49,8 +52,25 @@ export default class TrackPlayer {
   playItem (item, ctx) {
     store.commit(item.type, item.payload)
 
+    ctx.modifyNowPlaying(item)
+
     ctx.id += 1
     ctx.recursivePlay()
+  }
+
+  modifyNowPlaying (item) {
+    if (item.type === types.KEYDOWN) {
+      this.nowPlaying.push(item)
+    } else if (item.type === types.KEYUP) {
+      remove(this.nowPlaying, _item =>
+        _item.payload.octaveId === item.payload.octaveId &&
+        _item.payload.noteId === item.payload.noteId
+      )
+    }
+  }
+
+  keyUpAll () {
+    this.nowPlaying.forEach(item => store.commit(types.KEYUP, item.payload))
   }
 
   play () {
@@ -68,12 +88,14 @@ export default class TrackPlayer {
 
   pause () {
     clearTimeout(this.timer)
+    this.keyUpAll()
     this.onPause && this.onPause()
   }
 
   stop () {
     clearTimeout(this.timer)
     this.resetId()
+    this.keyUpAll()
     this.onStop && this.onStop()
   }
 }

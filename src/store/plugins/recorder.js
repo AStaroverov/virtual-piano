@@ -11,7 +11,7 @@ export default function (store) {
       pushToTrack(store, mutation)
     }
 
-    if (mutation.type === records.ADD_RECORD) {
+    if (mutation.type === records.ADD_RECORD || mutation.type === records.REMOVE_RECORD) {
       saveToLocal(store.state.records.list)
     }
   })

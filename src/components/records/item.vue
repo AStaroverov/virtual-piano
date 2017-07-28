@@ -1,5 +1,6 @@
 <template>
   <div class="record">
+    <div class="close" @click="remove">+</div>
     <span class="title" v-text="record.title" />
     <div class="buttons">
       <button
@@ -35,6 +36,7 @@
 </template>
 
 <script>
+  import * as typesRecords from 'src/store/types/records'
   import TrackPlayer from 'src/modules/track-player'
 
   export default {
@@ -66,7 +68,13 @@
         this.player.pause()
       },
       stop () {
-        this.player.stop()
+        if (this.player) {
+          this.player.stop()
+        }
+      },
+      remove () {
+        this.stop()
+        this.$store.commit(typesRecords.REMOVE_RECORD, this.record.id)
       },
       initPlayer () {
          return new TrackPlayer({
@@ -91,11 +99,36 @@
 
 <style scoped>
   .record {
+    position: relative;
     display: flex;
     flex-direction: column;
     padding: 10px;
     border-radius: 3px;
     box-shadow: 0 0 4px rgba(0,0,0, .5);
+  }
+
+  .close {
+    cursor: pointer;
+    box-sizing: content-box;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: rotate(45deg);
+    background-color: transparent;
+    line-height: 0;
+    color: black;
+    transition: background-color .15s;
+  }
+
+  .close:hover {
+    background-color: rgba(0,0,0, .1);
   }
 
   .title {

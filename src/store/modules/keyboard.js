@@ -32,6 +32,9 @@ const mutations = {
       button.isPressed = false
       button.timePress = 0
     }
+  },
+  [types.KEYUP_ALL] () {
+    this.pressedButtons = []
   }
 }
 
