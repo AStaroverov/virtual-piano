@@ -1,10 +1,12 @@
 <template>
   <div class="records">
-    <div class="record" v-for="(record, index) in records">
-      <Item
-        :key="index"
-        :record="record"
-      />
+    <div class="item" v-for="(record, index) in records">
+      <div>
+        <Item
+          :key="index"
+          :record="record"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -31,11 +33,11 @@
     overflow: auto;
   }
 
-  .record {
+  .item {
     padding: 5px;
   }
 
-  .record + .record {
-    margin-left: 5x;
+  .item + .item {
+    margin-left: 5px;
   }
 </style>

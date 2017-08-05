@@ -4,14 +4,10 @@
 
     <MainMenu />
 
-    <div class="center">
-      <div class="wrapper black">
-        <TrackRoad />
-      </div>
-      <div class="wrapper">
-        <Keyboard />
-      </div>
+    <div class="piano-container">
+      <PianoBlock />
     </div>
+
     <Recorder />
     <Records />
 
@@ -22,14 +18,13 @@
 <script>
   import BetaBanner from 'src/components/beta-banner/index.vue'
   import MainMenu from 'src/connects/menu'
-  import Keyboard from 'src/components/keyboard/index.vue'
-  import TrackRoad from 'src/components/track-road/index.vue'
+  import PianoBlock from 'src/components/piano-block/index.vue'
   import Recorder from 'src/components/recorder/index.vue'
   import Records from 'src/components/records/index.vue'
 
   export default {
     name: 'container',
-    components: { BetaBanner, MainMenu, Keyboard, TrackRoad, Recorder, Records }
+    components: { BetaBanner, MainMenu, PianoBlock, Recorder, Records }
   }
 </script>
 
@@ -51,21 +46,9 @@
     right: 0;
   }
 
-  .center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .wrapper {
-    display: flex;
-    justify-content: center;
+  .piano-container {
     width: 100%;
-    padding: 0 10px;
-  }
-
-  .black {
-    background-color: black;
+    height: 400px;
   }
 
   .row {

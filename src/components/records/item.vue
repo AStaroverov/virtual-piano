@@ -1,38 +1,61 @@
 <template>
-  <div class="record">
-    <div class="close" @click="remove">+</div>
-    <span class="title" v-text="record.title" />
+  <el-card class="record">
+    <span slot="header" class="title" v-text="record.title" />
     <div class="buttons">
-      <button
+      <el-button
         v-if="!playing"
+        type="success"
         class="button"
         @click="play"
       >
-        play
-      </button>
-      <button
+        <div class="inner">
+          <i class="icon mdi md-18">play_arrow</i>
+          <span>play</span>
+        </div>
+      </el-button>
+      <el-button
         v-if="!playing"
+        type="success"
         class="button"
         @click="loop"
       >
-        loop
-      </button>
-      <button
+        <div class="inner">
+          <i class="icon mdi md-18">loop</i>
+          <span>loop</span>
+        </div>
+      </el-button>
+      <el-button
         v-if="playing"
+        type="warning"
         class="button"
         @click="pause"
       >
-        pause
-      </button>
-      <button
+        <div class="inner">
+          <i class="icon mdi md-18">pause</i>
+          <span>pause</span>
+        </div>
+      </el-button>
+      <el-button
         v-if="playing"
+        type="warning"
         class="button"
         @click="stop"
       >
-        stop
-      </button>
+        <div class="inner">
+          <i class="icon mdi md-18">stop</i>
+          <span>stop</span>
+        </div>
+      </el-button>
     </div>
-  </div>
+    <div class="footer">
+      <el-button type="danger" size="small" class="button" @click="remove">
+        <div class="inner">
+          <i class="icon mdi md-18">delete</i>
+          <span>delete</span>
+        </div>
+      </el-button>
+    </div>
+  </el-card>
 </template>
 
 <script>
@@ -102,33 +125,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    border-radius: 3px;
-    box-shadow: 0 0 4px rgba(0,0,0, .5);
-  }
-
-  .close {
-    cursor: pointer;
-    box-sizing: content-box;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 3px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    transform: rotate(45deg);
-    background-color: transparent;
-    line-height: 0;
-    color: black;
-    transition: background-color .15s;
-  }
-
-  .close:hover {
-    background-color: rgba(0,0,0, .1);
   }
 
   .title {
@@ -140,10 +136,24 @@
   }
 
   .button {
-    padding: 5px;
-    width: 50px;
+    width: 100px;
   }
+
+  .inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icon {
+    margin-right: 5px;
+  }
+
   .button + .button {
     margin-left: 10px;
+  }
+
+  .footer {
+    margin-top: 10px;
   }
 </style>
