@@ -4,6 +4,7 @@ var isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
   loaders: utils.cssLoaders({
+    minimize: isProduction,
     sourceMap: isProduction
       ? config.build.productionSourceMap
       : config.dev.cssSourceMap,
