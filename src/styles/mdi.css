@@ -24,6 +24,9 @@
 }
 
 /* Rules for sizing the icon. */
+.mdi.md-12 { font-size: 12px; }
+.mdi.md-14 { font-size: 14px; }
+.mdi.md-16 { font-size: 16px; }
 .mdi.md-18 { font-size: 18px; }
 .mdi.md-24 { font-size: 24px; }
 .mdi.md-36 { font-size: 36px; }
