@@ -16,7 +16,7 @@ function changeState (buttons) {
   }
 }
 
-var _wasPressedEarly = []
+let _wasPressedEarly = []
 function findNewPressedButtons (buttons) {
   const pressedButtons = buttons.filter(btn => btn.isPressed)
   const newButtons = difference(pressedButtons, _wasPressedEarly)
