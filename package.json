@@ -10,16 +10,20 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "await-to-js": "^1.0.1",
     "axios": "^0.16.1",
     "babel-cli": "^6.24.1",
+    "babel-plugin-component": "^0.10.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.5.1",
+    "element-ui": "^1.4.1",
     "enhanced-resolve": "^3.4.1",
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-node": "^5.0.0",
     "eslint-plugin-vue": "^2.0.1",
+    "firebase": "^4.2.0",
     "localforage": "^1.5.0",
     "pixi.js": "^4.5.4",
     "soundmanager2": "^2.97.20150601-a",
@@ -27,7 +31,8 @@
     "uuid": "^3.1.0",
     "vue": "^2.3.3",
     "vue-router": "^2.5.3",
-    "vuex": "^2.3.1"
+    "vuex": "^2.3.1",
+    "vuex-connect": "^1.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",

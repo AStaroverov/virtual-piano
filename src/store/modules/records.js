@@ -1,5 +1,4 @@
-import { findIndex } from 'lodash'
-import uuid from 'uuid/v4'
+import { findIndex, isNumber } from 'lodash'
 import * as types from 'src/store/types/records'
 
 const state = {
@@ -15,30 +14,33 @@ const state = {
 const getters = {}
 
 const mutations = {
-  [types.RESET_RECORDS] (state, { tracks }) {
-    state.list = tracks || []
+  [types.RESET_RECORDS] (state, records) {
+    state.list = records || []
   },
   [types.ADD_RECORD] (state, record) {
     console.log(record)
     state.list.push(record)
   },
-  [types.REMOVE_RECORD] (state, id) {
-    const i = findIndex(state.list, record => record.id === id)
+  [types.REMOVE_RECORD] (state, uid) {
+    const i = findIndex(state.list, record => record.uid === uid)
 
-    state.list.splice(i, 1)
+    if (isNumber(i)) {
+      state.list.splice(i, 1)
+    }
   }
 }
 
 const actions = {
   [types.ADD_RECORD] ({ commit }, record) {
-    const startTime = record.track[0].time
-    const id = uuid(startTime)
+    const startTime = record.track[0].payload.time
+    const recordTime = Date.now()
+    const uid = `${record.title}-${recordTime}`
 
     record.track.forEach(action => {
-      action.time -= startTime
+      action.payload.time -= startTime
     })
 
-    commit(types.ADD_RECORD, { ...record, id })
+    commit(types.ADD_RECORD, { ...record, uid, recordTime })
   }
 }
 

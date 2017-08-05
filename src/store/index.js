@@ -3,8 +3,11 @@ import Vuex from 'vuex'
 import keyboard from './modules/keyboard'
 import recorder from './modules/recorder'
 import records from './modules/records'
-import recordPlugin from './plugins/recorder'
-import init from './init'
+import user from './modules/user'
+
+import recordedPlugin from './plugins/recorder'
+import recordsPlugin from './plugins/records'
+import userPlugin from './plugins/user'
 
 Vue.use(Vuex)
 
@@ -12,13 +15,14 @@ const store = new Vuex.Store({
   modules: {
     keyboard,
     recorder,
-    records
+    records,
+    user
   },
   plugins: [
-    recordPlugin
+    recordedPlugin,
+    recordsPlugin,
+    userPlugin
   ]
 })
-
-init(store)
 
 export default window.store = store
