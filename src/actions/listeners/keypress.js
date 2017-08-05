@@ -8,11 +8,13 @@ const SHIFT_KEYCODE = 16
 document.addEventListener('keydown', keydown)
 document.addEventListener('keyup', keyup)
 
-var shiftPressed = false
-var keyCodesPressed = new Set()
+let shiftPressed = false
+let keyCodesPressed = new Set()
 
 function keydown (e) {
-  var { key, keyCode } = e
+  if (e.target.tagName.toLowerCase() === 'input') return
+
+  let { key, keyCode } = e
 
   if (!keyCode) return
 

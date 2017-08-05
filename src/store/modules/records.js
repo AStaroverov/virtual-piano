@@ -18,7 +18,6 @@ const mutations = {
     state.list = records || []
   },
   [types.ADD_RECORD] (state, record) {
-    console.log(record)
     state.list.push(record)
   },
   [types.REMOVE_RECORD] (state, uid) {
