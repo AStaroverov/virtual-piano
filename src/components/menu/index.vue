@@ -31,7 +31,6 @@
     data: () => ({
       isVisible: false
     }),
-    created () {console.log(this)},
     computed: {
       stateClass () {
         return this.isVisible ? 'show' : ''
