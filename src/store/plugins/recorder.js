@@ -1,7 +1,5 @@
-import localStore from 'src/localforage'
 import * as keyboard from '../types/keyboard'
 import * as record from '../types/recorder'
-import * as records from '../types/records'
 
 export default function (store) {
   store.subscribe((mutation) => {
@@ -9,10 +7,6 @@ export default function (store) {
 
     if (recorder.record && (mutation.type === keyboard.KEYDOWN || mutation.type === keyboard.KEYUP)) {
       pushToTrack(store, mutation)
-    }
-
-    if (mutation.type === records.ADD_RECORD || mutation.type === records.REMOVE_RECORD) {
-      saveToLocal(store.state.records.list)
     }
   })
 }
@@ -25,8 +19,4 @@ function pushToTrack (store, mutation) {
       time: Date.now()
     }
   })
-}
-
-function saveToLocal (tracks) {
-  localStore.setItem('tracks', tracks)
 }

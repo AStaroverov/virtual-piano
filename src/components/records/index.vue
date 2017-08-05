@@ -16,7 +16,7 @@
     name: 'records',
     computed: {
       records () {
-        return this.$store.state.records.list
+        return this.$store.state.records.list.sort((a, b) => a.timeRecord - b.timeRecord)
       }
     },
     components: { Item }

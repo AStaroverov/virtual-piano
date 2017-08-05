@@ -1,33 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import ActiveMusicalText from 'src/components/musical-text'
-import SubMenuMusicalTexts from 'src/components/left-menu/musical-texts'
-import CustomText from 'src/components/custom-text'
+import Signup from 'src/components/signup/index.vue'
+import Signin from 'src/components/signin/index.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/musical-texts/',
-      name: 'musical-texts',
+      path: '/signup',
+      name: 'signup',
       components: {
-        'sub-menu': SubMenuMusicalTexts
+        auth: Signup
       }
     },
     {
-      path: '/musical-texts/:name',
-      name: 'musical-text',
+      path: '/signin',
+      name: 'signin',
       components: {
-        'lower-piano': ActiveMusicalText
-      }
-    },
-    {
-      path: '/custom-text/',
-      name: 'custom-text',
-      components: {
-        'lower-piano': CustomText
+        auth: Signin
       }
     }
   ]

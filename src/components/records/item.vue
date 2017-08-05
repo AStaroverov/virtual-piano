@@ -74,7 +74,7 @@
       },
       remove () {
         this.stop()
-        this.$store.commit(typesRecords.REMOVE_RECORD, this.record.id)
+        this.$store.commit(typesRecords.REMOVE_RECORD, this.record.uid)
       },
       initPlayer () {
          return new TrackPlayer({
