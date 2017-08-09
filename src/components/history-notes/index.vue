@@ -30,7 +30,7 @@ export default {
   computed: {
     pressedButtons () {
       return this.$store.getters.pressedButtons
-        .sort((a, b) => a.timePress - b.timePress)
+        .sort((a, b) => a.time - b.time)
     }
   },
   watch: {

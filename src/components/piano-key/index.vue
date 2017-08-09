@@ -40,15 +40,18 @@ export default {
     play () {
       document.body.addEventListener('mouseup', this.stop)
 
-      clearTimeout(this._keyupTimer)
-      this.$store.commit(KEYDOWN, { ...this.button })
+      const time = Date.now()
+      this.payload = {
+        ...this.button,
+        time,
+        id: 'key-ssesion:' + (Math.random() * time)
+      }
+      this.$store.commit(KEYDOWN, this.payload)
     },
     stop () {
       document.body.removeEventListener('mouseup', this.stop)
 
-      this._keyupTimer = setTimeout(() => {
-        this.$store.commit(KEYUP, { ...this.button })
-      }, 100)
+      this.$store.commit(KEYUP, { ...this.payload, time: Date.now() })
     }
   }
 }

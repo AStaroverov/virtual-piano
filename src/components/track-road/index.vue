@@ -17,13 +17,20 @@
 
   export default {
     name: 'track-road',
+    props: {
+      onKeyup: {
+        required: true,
+        type: Function
+      },
+      onKeydown: {
+        required: true,
+        type: Function
+      }
+    },
     data: () => ({
       width: 0
     }),
     computed: {
-      pressedButtons () {
-        return this.$store.getters.pressedButtons
-      },
       style () {
         return this.width
           ? { width: `${this.width}px`}
@@ -47,34 +54,15 @@
       this.app = new PIXI.Application(this.width, this.height, { antialias: true })
 
       el.appendChild(this.app.view)
-    },
-    watch: {
-      pressedButtons (newV, oldV) {
-        let big, small
 
-        // can create bugs
-        if (newV.length > oldV.length) {
-          big = newV
-          small = oldV
-        } else {
-          big = oldV
-          small = newV
-        }
-
-        const buttons = without(big, ...small)
-
-        if (newV.length > oldV.length) {
-          forEach(buttons, this.addPressedButton)
-        } else {
-          forEach(buttons, this.removePressedButton)
-        }
-      }
+      this.onKeyup(this.removePressedButton)
+      this.onKeydown(this.addPressedButton)
     },
     methods: {
       addPressedButton (button) {
         const x = utils.getPosition(button, this.whiteButtonWidth)
         const width = button.typeId === buttons.WHITE_ID ? this.whiteButtonWidth : this.blackButtonWidth
-        const line = this.lines[button.key] = new KeyLine({
+        const line = this.lines[button.id] = new KeyLine({
           x,
           y: 0,
           width,
@@ -86,7 +74,11 @@
         line.startGrow()
       },
       removePressedButton (button) {
-        this.lines[button.key].stopGrow()
+        const line = this.lines[button.id]
+
+        if (!line) return
+
+        line.stopGrow()
       }
     }
   }

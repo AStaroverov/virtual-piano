@@ -10,11 +10,12 @@ document.addEventListener('keyup', keyup)
 
 let shiftPressed = false
 let keyCodesPressed = new Set()
+let keyCodePayload = new Map()
 
 function keydown (e) {
   if (e.target.tagName.toLowerCase() === 'input') return
 
-  let { key, keyCode } = e
+  let { keyCode } = e
 
   if (!keyCode) return
 
@@ -37,10 +38,18 @@ function keydown (e) {
 
   if (shiftPressed) {
     copyNote.noteId = copyNote.noteId + DIESE_SHIFT_ID
-    key = key.toUpperCase()
   }
 
-  store.commit(keyboardTypes.KEYDOWN, { ...copyNote, key, keyCode })
+  const time = Date.now()
+  const payload = {
+    ...copyNote,
+    time,
+    id: 'key-ssesion:' + (Math.random() * time)
+  }
+
+  keyCodePayload.set(keyCode, payload)
+
+  store.commit(keyboardTypes.KEYDOWN, payload)
 }
 
 function keyup (e) {
@@ -59,11 +68,9 @@ function keyup (e) {
 
   if (!note) return
 
-  const copyNote = { ...note }
+  const payload = keyCodePayload.get(keyCode)
 
-  store.commit(keyboardTypes.KEYUP, copyNote)
+  if (!payload) return
 
-  // for diese notes
-  copyNote.noteId = copyNote.noteId + DIESE_SHIFT_ID
-  store.commit(keyboardTypes.KEYUP, copyNote)
+  store.commit(keyboardTypes.KEYUP, { ...payload, time: Date.now() })
 }

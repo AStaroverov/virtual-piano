@@ -1,61 +1,52 @@
-import { remove } from 'lodash'
 import * as types from 'src/store/types/keyboard'
+import { remove } from 'lodash'
 import store from 'src/store/index'
+import ticker from 'src/modules/ticker'
 
 export default class TrackPlayer {
-  constructor ({ track, onPlay, onLoop, onStop, onPause }) {
-    this.id = 0
-    this.timer = 0
+  constructor ({ track, onPlay, onLoop, onStop, onPause, onStart, onEnd }) {
+    this.time = 0
+    this._track = [ ...track ]
     this.track = track
     this.onPlay = onPlay
     this.onLoop = onLoop
     this.onStop = onStop
     this.onPause = onPause
+    this.onStart = onStart
+    this.onEnd = onEnd
 
+    this.started = false
     this.nowPlaying = []
     this.requrcive = false
-
-    this.recursivePlay = this.recursivePlay.bind(this)
-    this.resetId = this.resetId.bind(this)
   }
 
-  recursivePlay () {
-    const item = this.track[this.id]
+  reset () {
+    this.time = 0
+    this.track = [ ...this._track ]
+  }
+
+  tick = (deltaTime) => {
+    this.time += deltaTime * 16.66
+    this.tryPlay()
+  }
+
+  tryPlay () {
+    const item = this.track[0]
 
     if (!item) {
-      return this.requrcive
-        ? this.loop(this.resetId)
-        : this.stop()
+      return this.end()
     }
 
-    const prevItem = this.track[this.id - 1]
-    let delay
-
-    if (prevItem) {
-      delay = item.payload.time - prevItem.payload.time
-    } else {
-      delay = item.payload.time
+    if (this.time > item.payload.time) {
+      this.playItem(this.track.shift())
+      this.tryPlay()
     }
-
-    this.timer = setTimeout(
-      this.playItem,
-      delay,
-      item,
-      this
-    )
   }
 
-  resetId () {
-    this.id = 0
-  }
-
-  playItem (item, ctx) {
+  playItem (item) {
     store.commit(item.type, item.payload)
 
-    ctx.modifyNowPlaying(item)
-
-    ctx.id += 1
-    ctx.recursivePlay()
+    this.modifyNowPlaying(item)
   }
 
   modifyNowPlaying (item) {
@@ -73,29 +64,50 @@ export default class TrackPlayer {
     this.nowPlaying.forEach(item => store.commit(types.KEYUP, item.payload))
   }
 
+  start () {
+    if (!this.started) {
+      this.onStart && this.onStart()
+    }
+
+    this.started = true
+    ticker.add(this.tick)
+  }
+
+  end () {
+    ticker.remove(this.tick)
+    this.started = false
+    this.onEnd && this.onEnd()
+    this.keyUpAll()
+    this.reset()
+
+    if (this.requrcive) {
+      this.start()
+    }
+  }
+
   play () {
     this.requrcive = false
     this.onPlay && this.onPlay()
-    this.recursivePlay()
+    this.start()
   }
 
   loop (cb) {
     this.requrcive = true
     this.onLoop && this.onLoop()
-    cb && cb()
-    this.recursivePlay()
+    this.start()
   }
 
   pause () {
-    clearTimeout(this.timer)
+    ticker.remove(this.tick)
     this.keyUpAll()
     this.onPause && this.onPause()
   }
 
   stop () {
-    clearTimeout(this.timer)
-    this.resetId()
+    this.requrcive = false
+    ticker.remove(this.tick)
     this.keyUpAll()
     this.onStop && this.onStop()
+    this.reset()
   }
 }

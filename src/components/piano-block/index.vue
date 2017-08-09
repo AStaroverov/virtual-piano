@@ -12,7 +12,7 @@
 
 <script>
   import Keyboard from 'src/components/keyboard/index.vue'
-  import TrackRoad from 'src/components/track-road/index.vue'
+  import TrackRoad from 'src/connects/track-road'
 
   export default {
     name: 'container',

@@ -12,11 +12,5 @@ export default function (store) {
 }
 
 function pushToTrack (store, mutation) {
-  store.commit(record.PUSH_TO_TRACK, {
-    type: mutation.type,
-    payload: {
-      ...mutation.payload,
-      time: Date.now()
-    }
-  })
+  store.commit(record.PUSH_TO_TRACK, mutation)
 }

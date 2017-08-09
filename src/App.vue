@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="app">
     <vue-container />
   </div>
 </template>
@@ -14,7 +14,7 @@
 </script>
 
 <style scoped>
-  #app {
+  .app {
     width: 100vw;
     height: 100vh;
     overflow: hidden;

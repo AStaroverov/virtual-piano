@@ -13,16 +13,25 @@ export default class KeyLine extends PIXI.Graphics {
     this.yDestroy = yDestroy
     this.color = color
 
-    PIXI.ticker.shared.add(this.move)
+    this.isGrow = false
+
     PIXI.ticker.shared.add(this.render)
   }
 
   startGrow () {
+    if (this.isGrow) return
+
+    this.isGrow = !this.isGrow
+
     PIXI.ticker.shared.remove(this.move)
     PIXI.ticker.shared.add(this.grow)
   }
 
   stopGrow () {
+    if (!this.isGrow) return
+
+    this.isGrow = !this.isGrow
+
     PIXI.ticker.shared.add(this.move)
     PIXI.ticker.shared.remove(this.grow)
   }
@@ -54,7 +63,10 @@ export default class KeyLine extends PIXI.Graphics {
     if (this.yDestroy <= this.startPosition.y) {
       PIXI.ticker.shared.remove(this.move)
       PIXI.ticker.shared.remove(this.render)
-      this.destroy()
+
+      if (this.graphicsData !== null) {
+        this.destroy()
+      }
     } else {
       this.startPosition.y += 1
     }

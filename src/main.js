@@ -6,12 +6,12 @@ import './workaround'
 import Vue from 'vue'
 import './element-ui'
 
-import 'src/actions/subscribers/user'
-
 import App from './App'
 
 import router from './router'
 import store from './store'
+
+import 'src/actions/subscribers/user'
 import 'src/actions/listeners/keypress.js'
 import 'src/actions/store-watch/keypress.js'
 import 'src/modules/firebase'
