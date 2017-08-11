@@ -23,8 +23,13 @@ export default class TimeLine extends PIXI.Graphics {
     PIXI.ticker.shared.remove(this.move)
   }
 
-  setPosition (x) {
-    this._x = x
+  goToStart () {
+    this._x = 0
+    this.render()
+  }
+
+  goToEnd () {
+    this._x = this.maxX
     this.render()
   }
 

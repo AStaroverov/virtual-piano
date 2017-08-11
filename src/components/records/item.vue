@@ -3,7 +3,11 @@
     class="record"
     :body-style="{ padding: '15px', position: 'relative' }"
   >
-    <span slot="header" class="title" v-text="record.title" />
+    <div slot="header" class="header">
+      <span class="title" v-text="record.title" />
+      <i class="mdi md-18 share" @click="share">share</i>
+      <input class="link" ref="linkInput" v-model="sharedLink" />
+    </div>
     <div ref="timeline" class="timeline" />
     <div class="buttons">
       <el-button
@@ -74,17 +78,37 @@
     name: 'record',
     props: {
       record: {
-        required: true
+        required: true,
+        type: Object
+      },
+      getSharedLink: {
+        required: true,
+        type: Function
+      },
+      shareRecord: {
+        required: true,
+        type: Function
       }
     },
     data: () => ({
       playing: false,
       isBroken: false
     }),
+    computed: {
+      sharedLink () {
+        return this.getSharedLink(this.record.uid)
+      }
+    },
     mounted () {
       this.initTimeline()
     },
+    destroyed () {
+      this.app && this.app.destroy()
+    },
     methods: {
+      share () {
+        this.shareRecord(this.$refs.linkInput)
+      },
       initTimeline () {
         const action = last(this.record.track)
         const duration = action && action.payload ? action.payload.time : null
@@ -162,15 +186,16 @@
            },
            onStop: () => {
              this.timeline.stop()
-             this.timeline.setPosition(0)
+             this.timeline.goToStart()
              this.playing = false
            },
            onStart: () => {
              this.playing = true
-             this.timeline.setPosition(0)
+             this.timeline.goToStart()
              this.timeline.start()
            },
            onEnd: () => {
+             this.timeline.goToEnd()
              this.timeline.stop()
              this.playing = false
            }
@@ -187,8 +212,19 @@
     flex-direction: column;
   }
 
-  .title {
-    margin-bottom: 10px;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .link {
+    position: absolute;
+    top: -99999px;
+  }
+
+  .share {
+    cursor: pointer;
   }
 
   .timeline {

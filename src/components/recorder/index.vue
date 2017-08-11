@@ -1,9 +1,35 @@
 <template>
   <div class="recorder">
-    <button v-if="!recording" class="button" @click="startRecord">Record</button>
-    <button v-if="recording" class="button" @click="stopRecord">Stop</button>
-    <div class="time" v-text="withText(timeRecord)" />
-    <button v-if="!recording && track.length" class="button" @click="saveTrack">Save</button>
+    <el-button
+      v-if="!recording"
+      @click="startRecord"
+      size="large"
+    >
+      <div class="inner">
+        <i class="mdi record-icon">fiber_manual_record</i>
+        Record
+      </div>
+    </el-button>
+    <el-button
+      v-if="recording"
+      @click="stopRecord"
+      size="large"
+    >
+      <div class="inner">
+        <i class="mdi stop-icon">stop</i>
+        Stop
+      </div>
+    </el-button>
+    <el-button
+      v-if="!recording && track.length"
+      @click="saveTrack"
+      size="large"
+    >
+      <div class="inner">
+        <i class="mdi save-icon">save</i>
+        Save
+      </div>
+    </el-button>
   </div>
 </template>
 
@@ -14,8 +40,7 @@
   export default {
     name: 'recorder',
     data: () => ({
-      recording: false,
-      timeRecord: 0
+      recording: false
     }),
     computed: {
       track () {
@@ -30,7 +55,6 @@
         commit(recorderTypes.START_RECORD)
 
         this.recording = true
-        this.startIncreaseTimeRecord()
       },
       stopRecord () {
         this.recording = false
@@ -41,16 +65,19 @@
 
         commit(recorderTypes.STOP_RECORD)
       },
-      saveTrack () {
+      async saveTrack () {
         const { dispatch } = this.$store
-        const title = prompt('Write title for track')
+        const [ err, response ] = await to(this.$prompt('Record title', 'Save record', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          inputPattern: /^.+$/,
+          inputErrorMessage: 'Min 1 character.'
+        }))
+        const title = response.value
+
+        if (err || !title) return
 
         title && dispatch(recordsTypes.ADD_RECORD, { title, track: this.track })
-      },
-      startIncreaseTimeRecord () {
-        this.intervalIncreasing = setInterval(() => {
-          this.timeRecord += 1
-        }, 1000)
       },
       withText (time) {
         return `${time} sec`
@@ -67,7 +94,22 @@
     margin-top: 20px;
   }
 
-  .time {
-    margin: 10px;
+  .inner {
+    display: flex;
+    align-items: center;
+    line-height: 0;
+  }
+
+  .mdi {
+    margin-right: 5px;
+  }
+
+  .record-icon {
+    color: #ff6d6d;
+  }
+
+  .stop-icon,
+  .save-icon {
+    color: #1f2d3d;
   }
 </style>

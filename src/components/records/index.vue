@@ -1,10 +1,12 @@
 <template>
   <div class="records">
-    <div class="item" v-for="(record, index) in records">
+    <div class="item" v-for="record in records">
       <div>
         <Item
-          :key="index"
+          :key="record.uid"
           :record="record"
+          :getSharedLink="getSharedLink"
+          :shareRecord="shareRecord"
         />
       </div>
     </div>
@@ -16,9 +18,18 @@
 
   export default {
     name: 'records',
-    computed: {
-      records () {
-        return this.$store.state.records.list.sort((a, b) => a.timeRecord - b.timeRecord)
+    props: {
+      records: {
+        required: true,
+        type: Array
+      },
+      getSharedLink: {
+        required: true,
+        type: Function
+      },
+      shareRecord: {
+        required: true,
+        type: Function
       }
     },
     components: { Item }

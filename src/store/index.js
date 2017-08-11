@@ -4,6 +4,7 @@ import keyboard from './modules/keyboard'
 import recorder from './modules/recorder'
 import records from './modules/records'
 import user from './modules/user'
+import usersRecords from './modules/users-records'
 
 import recordedPlugin from './plugins/recorder'
 import recordsPlugin from './plugins/records'
@@ -16,7 +17,8 @@ const store = new Vuex.Store({
     keyboard,
     recorder,
     records,
-    user
+    user,
+    usersRecords
   },
   plugins: [
     recordedPlugin,

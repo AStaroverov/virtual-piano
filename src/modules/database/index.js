@@ -24,7 +24,7 @@ class DatabaseApi {
     const all = []
 
     forEach(recordsUids, uid => {
-      const path = getPath(['user-records', userUid])
+      const path = getPath(['user-records', userUid, uid])
       const promise = this.get(path)
 
       all.push(promise)

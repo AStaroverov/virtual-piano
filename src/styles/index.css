@@ -16,3 +16,10 @@ p, body, html, span {
 div {
   box-sizing: border-box;
 }
+
+:root {
+  --color-main: #20A0FF;
+  --color-success: #13CE66;
+  --color-warning: #F7BA2A;
+  --color-error: #FF4949;
+}

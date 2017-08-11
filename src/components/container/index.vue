@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <BetaBanner class="beta-banner" />
+    <router-view class="focus-record" name="focusRecord" />
 
     <MainMenu />
 
@@ -16,15 +16,15 @@
 </template>
 
 <script>
-  import BetaBanner from 'src/components/beta-banner/index.vue'
   import MainMenu from 'src/connects/menu'
+  import FocusRecord from 'src/connects/focus-record'
   import PianoBlock from 'src/components/piano-block/index.vue'
   import Recorder from 'src/components/recorder/index.vue'
-  import Records from 'src/components/records/index.vue'
+  import Records from 'src/connects/records'
 
   export default {
     name: 'container',
-    components: { BetaBanner, MainMenu, PianoBlock, Recorder, Records }
+    components: { MainMenu, FocusRecord, PianoBlock, Recorder, Records }
   }
 </script>
 
@@ -38,12 +38,12 @@
     padding: 10px;
   }
 
-  .beta-banner {
+  .focus-record {
     position: absolute;
     z-index: 1;
     top: 20px;
-    left: 0;
-    right: 0;
+    left: 30px;
+    right: 30px;
   }
 
   .piano-container {
