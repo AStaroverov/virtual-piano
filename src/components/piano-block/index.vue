@@ -4,9 +4,7 @@
       <TrackRoad />
       <div class="bg"></div>
     </div>
-    <div class="wrapper keyboard">
-      <Keyboard />
-    </div>
+    <Keyboard class="keyboard" />
   </div>
 </template>
 
@@ -25,8 +23,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    transform-style: preserve-3d;
-    transform: translateY(-50px) scale(.9) perspective(1000px) rotate3d(130,0,0,30deg);
   }
 
   .wrapper {
@@ -42,8 +38,8 @@
   }
 
   .keyboard {
-    transform: translateZ(5px);
-    transform-style: preserve-3d;
+    width: 100%;
+    height: 130px;
   }
 
   .bg {

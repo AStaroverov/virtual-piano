@@ -12,7 +12,7 @@ export function getWhiteButtonWidth (containerWidth) {
 }
 
 export function getBlackButtonWidth (containerWidth) {
-  return Math.round(containerWidth / 45)
+  return Math.round(containerWidth / 66)
 }
 
 export function getWidthPiano (containerWidth) {
