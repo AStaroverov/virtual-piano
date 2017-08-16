@@ -27,11 +27,13 @@ export default class {
     const width = this.container.offsetWidth
     const height = this.container.offsetHeight
 
-    const camera = new THREE.PerspectiveCamera(5, width / height, 0.1, 5000)
-    camera.position.z = 1500
+    const camera = new THREE.PerspectiveCamera(15, width / height, 0.1, 5000)
+    camera.position.y = 450
+    camera.position.z = 360
+    camera.rotation.x = -0.9
 
     const scene = new THREE.Scene()
-    const renderer = new THREE.WebGLRenderer({ alpha: true })
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(width, height)
 
@@ -63,14 +65,14 @@ export default class {
       ? 0xffffff
       : 0x000000
     const edgeColor = button.typeId === buttonsConstants.WHITE_ID
-      ? 0x000000
-      : 0xffffff
+      ? 0x3e3e3e
+      : 0x969696
     const width = button.typeId === buttonsConstants.WHITE_ID
       ? this.whiteButtonWidth
       : this.blackButtonWidth
     const height = button.typeId === buttonsConstants.WHITE_ID
       ? 20
-      : 40
+      : 30
     const length = button.typeId === buttonsConstants.WHITE_ID
       ? 150
       : 110
@@ -86,8 +88,8 @@ export default class {
 
     buttonGl.setPosition({
       x: utils.getPosition(button, this.whiteButtonWidth),
-      y: button.typeId === buttonsConstants.BLACK_ID ? 15 : 5,
-      z: button.typeId === buttonsConstants.BLACK_ID ? -5 : 0
+      y: button.typeId === buttonsConstants.BLACK_ID ? 12 : 5,
+      z: button.typeId === buttonsConstants.BLACK_ID ? -18 : 0
     })
 
     this.buttons.push(buttonGl)

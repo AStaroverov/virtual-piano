@@ -7,9 +7,6 @@ export default class {
     const material = new THREE.MeshBasicMaterial({ color })
     const box = new THREE.Mesh(geometry, material)
 
-    box.rotation.x = 0.7
-    box.rotation.y = 0
-
     const edges = new THREE.EdgesGeometry(box.geometry)
     const edgesMaterial = new THREE.LineBasicMaterial({ color: edgeColor, linewidth: 4 })
     const wireframe = new THREE.LineSegments(edges, edgesMaterial)
@@ -30,21 +27,19 @@ export default class {
     isNumber(z) && (this.box.position.z = z)
   }
   press () {
-    const { position, rotation } = this.box
+    const { position } = this.box
 
     if (!this.isPressed) {
       this.isPressed = true
       position.y -= this.pressDelta
-      position.z -= this.pressDelta * rotation.x
     }
   }
   unpress () {
-    const { position, rotation } = this.box
+    const { position } = this.box
 
     if (this.isPressed) {
       this.isPressed = false
       position.y += this.pressDelta
-      position.z += this.pressDelta * rotation.x
     }
   }
 }
