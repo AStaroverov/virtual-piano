@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { isNumber } from 'lodash'
 
 export default class {
-  constructor ({ id, width, height, length, color, edgeColor }) {
+  constructor ({ id, width, height, length, color, edgeColor, pressColor }) {
     const geometry = new THREE.BoxBufferGeometry(width, height, length)
     const material = new THREE.MeshBasicMaterial({ color })
     const box = new THREE.Mesh(geometry, material)
@@ -17,6 +17,8 @@ export default class {
     this.box = box
     this.isPressed = false
     this.pressDelta = 10
+    this.color = color
+    this.pressColor = pressColor
   }
   get () {
     return this.box
@@ -27,18 +29,22 @@ export default class {
     isNumber(z) && (this.box.position.z = z)
   }
   press () {
-    const { position } = this.box
+    const { position, material } = this.box
 
     if (!this.isPressed) {
       this.isPressed = true
+
+      material.color.setHex(this.pressColor)
       position.y -= this.pressDelta
     }
   }
   unpress () {
-    const { position } = this.box
+    const { position, material } = this.box
 
     if (this.isPressed) {
       this.isPressed = false
+
+      material.color.setHex(this.color)
       position.y += this.pressDelta
     }
   }
