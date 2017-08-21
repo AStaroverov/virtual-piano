@@ -1,26 +1,34 @@
-import PIXI from 'src/pix'
+import Ticker from 'src/modules/ticker'
 
-export default class TimeLine extends PIXI.Graphics {
-  constructor ({ width, height, duration, color = 0x20a0ff }) {
-    super()
+export default class TimeLine {
+  constructor ({ container, duration, color = '#20a0ff' }) {
+    const width = container.clientWidth
+    const height = container.clientHeight
+
+    this.ctx = container.getContext('2d')
+    this.ctx.canvas.width = width
+    this.ctx.canvas.height = height
+    this.ctx.lineWidth = height
+    this.ctx.strokeStyle = color
 
     this.started = false
     this.maxX = width
-    this.color = color
-    this.deltaX = width / duration * 16.66
+    this.deltaX = width / duration
 
     this._x = 0
-    this._y = height
+    this._y = height / 2
+
+    this.moveTicker = new Ticker(this.move)
   }
 
   start () {
-    !this.started && PIXI.ticker.shared.add(this.move)
+    !this.started && this.moveTicker.subscribe()
     this.started = true
   }
 
   stop () {
     this.started = false
-    PIXI.ticker.shared.remove(this.move)
+    this.moveTicker.unsubscribe()
   }
 
   goToStart () {
@@ -33,25 +41,24 @@ export default class TimeLine extends PIXI.Graphics {
     this.render()
   }
 
-  move = (deltaTime) => {
-    this._x += this.deltaX * deltaTime
+  move = (timeFrame) => {
+    this._x += this.deltaX * timeFrame
 
     if (this._x > this.maxX) {
       this._x = this.maxX
-      this.stop()
     }
 
     this.render()
   }
 
-  render = () => {
-    this.clear()
+  render () {
+    const { ctx } = this
 
-    this.beginFill(this.color)
-    this.moveTo(0, 0)
-    this.lineTo(this._x, 0)
-    this.lineTo(this._x, this._y)
-    this.lineTo(0, this._y)
-    this.endFill()
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+
+    ctx.beginPath()
+    ctx.moveTo(0, this._y)
+    ctx.lineTo(this._x, this._y)
+    ctx.stroke()
   }
 }

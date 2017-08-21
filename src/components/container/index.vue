@@ -18,7 +18,7 @@
 <script>
   import MainMenu from 'src/connects/menu'
   import FocusRecord from 'src/connects/focus-record'
-  import PianoBlock from 'src/components/piano-block/index.vue'
+  import PianoBlock from 'src/connects/piano-block'
   import Recorder from 'src/components/recorder/index.vue'
   import Records from 'src/connects/records'
 

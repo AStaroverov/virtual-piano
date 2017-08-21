@@ -1,59 +1,73 @@
 <template>
-  <div class="piano-block">
-    <div class="wrapper track-road">
-      <TrackRoad />
-      <div class="bg"></div>
-    </div>
-    <div class="wrapper keyboard">
-      <Keyboard />
-    </div>
-  </div>
+  <div
+    ref="graph"
+    class='graph'
+  />
 </template>
 
 <script>
-  import Keyboard from 'src/components/keyboard/index.vue'
-  import TrackRoad from 'src/connects/track-road'
+  import { forEach } from 'lodash'
+  import events from 'src/modules/event-bus'
+
+  import PianoBlock from 'src/graphic/piano-block'
 
   export default {
-    name: 'container',
-    components: { Keyboard, TrackRoad }
+    name: 'piano-keyboard-block',
+    props: {
+      buttons: {
+        required: true,
+        type: Array
+      },
+      onKeyup: {
+        required: true,
+        type: Function
+      },
+      onKeydown: {
+        required: true,
+        type: Function
+      }
+    },
+    watch: {
+      buttons: {
+        handler (buttons) {
+          this.piano.keyboard.updateButtons(buttons)
+        },
+        deep: true
+      }
+    },
+    mounted () {
+      this.piano = new PianoBlock({
+        container: this.$refs.graph,
+        buttons: this.buttons
+      })
+
+      this.onKeydown(button => {
+        this.piano.trackRoad.addRoad(button)
+        this.piano.trackRoad.growRoad(button.id)
+      })
+
+      this.onKeyup(button => {
+        this.piano.trackRoad.moveRoad(button.id)
+      })
+    }
   }
 </script>
 
 <style scoped>
-  .piano-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transform-style: preserve-3d;
-    transform: translateY(-50px) scale(.9) perspective(1000px) rotate3d(130,0,0,30deg);
-  }
-
-  .wrapper {
+  .graph {
     position: relative;
-    display: flex;
-    justify-content: center;
     width: 100%;
-    padding: 0 10px;
+    height: 100%;
   }
 
-  .track-road {
-    background-color: black;
-  }
-
-  .keyboard {
-    transform: translateZ(5px);
-    transform-style: preserve-3d;
-  }
-
-  .bg {
+  .graph::before {
+    content: '';
     position: absolute;
     z-index: -1;
-    top: 0;
-    left: 0;
+    top: calc(-50% - 130px);
+    left: -50%;
     width: 200%;
-    height: 200%;
-    transform: translate(-25%, -50%);
-    background: black;
+    height: 150%;
+    background-color: black;
   }
 </style>

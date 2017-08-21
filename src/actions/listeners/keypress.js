@@ -1,7 +1,8 @@
-import store from 'src/store'
 import * as keyboardTypes from 'src/store/types/keyboard'
 import { mapKeyCodeToNoteIdOctaveId } from 'src/constants/keycodes'
 import { DIESE_SHIFT_ID } from 'src/constants/notes'
+
+import store from 'src/store'
 
 const SHIFT_KEYCODE = 16
 
