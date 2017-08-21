@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import ticker from 'src/modules/ticker'
+import * as ticker from 'src/modules/ticker'
 
 export default class Road {
   constructor ({ id, width, height, length, color, edgeColor, x, y }) {
@@ -25,29 +25,30 @@ export default class Road {
     return this.box
   }
   move () {
-    ticker.add(this._move)
-    ticker.remove(this._grow)
+    ticker.subscribe(this._move)
+    ticker.unsubscribe(this._grow)
   }
   _move = () => {
     this.box.position.z -= 1
 
-    if (this.box.position.z < -450) {
+    if (this.box.position.z < -550) {
       this.destroy()
     }
   }
   grow () {
-    ticker.add(this._grow)
-    ticker.remove(this._move)
+    ticker.subscribe(this._grow)
+    ticker.unsubscribe(this._move)
   }
   _grow = () => {
     this.box.scale.z += this.length * 0.04
     this.box.position.z -= 0.5
   }
-
   destroy () {
-    ticker.remove(this._grow)
-    ticker.remove(this._move)
-    this.box.parent.remove(this.box)
-    this.box = null
+    ticker.unsubscribe(this._grow)
+    ticker.unsubscribe(this._move)
+
+    if (this.box.parent && this.box.parent.remove) {
+      this.box.parent.remove(this.box)
+    }
   }
 }

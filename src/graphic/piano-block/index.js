@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-import ticker from 'src/modules/ticker'
+import * as ticker from 'src/modules/ticker'
 import KeyBoard from 'src/graphic/piano-keyboard'
 import TrackRoad from 'src/graphic/track-road'
 
@@ -48,7 +48,7 @@ export default class {
     this.addKeyboard(this.buttons)
     this.addTrackRoad()
 
-    ticker.add(() => renderer.render(scene, camera))
+    ticker.subscribe(() => renderer.render(scene, camera))
   }
 
   addKeyboard (buttons) {

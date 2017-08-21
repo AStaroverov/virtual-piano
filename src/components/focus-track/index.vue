@@ -54,7 +54,7 @@
       <span class="title" v-text="record.title" />
       <i class="close mdi md-14" @click="close">close</i>
     </div>
-    <div ref="timeline" class="timeline" />
+    <canvas ref="timeline" class="timeline" />
   </div>
 </template>
 
@@ -62,7 +62,6 @@
   import * as typesRecords from 'src/store/types/records'
 
   import { last } from 'lodash'
-  import PIXI from 'src/pix'
   import Timeline from 'src/graphic/simple-timeline'
   import TrackPlayer from 'src/modules/track-player'
 
@@ -88,9 +87,6 @@
     },
     created () {
       this.el = null
-      this.width = 0
-      this.height = 0
-      this.app = null
       this.player = null
 
       this.init()
@@ -99,8 +95,6 @@
       if (this.player) {
         this.player.pause()
       }
-
-      this.app && this.app.destroy()
     },
     methods: {
       init () {
@@ -110,29 +104,14 @@
 
         this.$nextTick(() => {
           if (record && record.track.length > 0) {
-            this.updateSizes()
+            this.el = this.$refs.timeline
+
             this.initTimeline()
             this.initPlayer()
           }
         })
       },
-      updateSizes () {
-        this.el = this.$refs.timeline
-        this.width = this.el.offsetWidth
-        this.height = this.el.offsetHeight
-      },
-      initPixi () {
-        if (this.app) return
-
-        this.app = new PIXI.Application(this.width, this.height, { transparent: true })
-        this.el.appendChild(this.app.view)
-
-        this.app.view.style.position = 'absolute'
-        this.app.view.style.top = 0
-      },
       initTimeline () {
-        this.timeline && this.app.stage.removeChild(this.timeline)
-
         const action = last(this.record.track)
         const duration = action && action.payload ? action.payload.time : null
 
@@ -141,10 +120,7 @@
           return
         }
 
-        this.initPixi()
-
-        this.timeline = new Timeline({ width: this.width, height: this.height, duration })
-        this.app.stage.addChild(this.timeline)
+        this.timeline = new Timeline({ container: this.el, duration })
       },
       initPlayer () {
         this.player = new TrackPlayer({

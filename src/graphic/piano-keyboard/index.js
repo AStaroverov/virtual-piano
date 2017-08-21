@@ -38,15 +38,27 @@ export default class {
     const length = button.typeId === buttonsConstants.WHITE_ID
       ? this.length
       : this.length - 40
+    const textSize = button.typeId === buttonsConstants.WHITE_ID
+      ? 13
+      : 11
+    const textColor = button.typeId === buttonsConstants.WHITE_ID
+      ? 0x000000
+      : 0xffffff
 
     const buttonGl = new Button({
+      scene: this.scene,
       id: this.createId(button),
       width,
       height,
       length,
       color,
       edgeColor,
-      pressColor: utils.getColorForNote(button.noteId)
+      pressColor: utils.getColorForNote(button.noteId),
+      text: {
+        value: button.text,
+        size: textSize,
+        color: textColor
+      }
     })
 
     buttonGl.setPosition({
@@ -56,7 +68,6 @@ export default class {
     })
 
     this.buttons.push(buttonGl)
-    this.scene.add(buttonGl.get())
   }
 
   updateButtons (buttons) {

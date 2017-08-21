@@ -1,7 +1,7 @@
 import * as types from 'src/store/types/keyboard'
 import { remove } from 'lodash'
 import store from 'src/store/index'
-import ticker from 'src/modules/ticker'
+import Ticker from 'src/modules/ticker'
 
 export default class TrackPlayer {
   constructor ({ track, onPlay, onLoop, onStop, onPause, onStart, onEnd }) {
@@ -18,6 +18,7 @@ export default class TrackPlayer {
     this.started = false
     this.nowPlaying = []
     this.requrcive = false
+    this.ticker = new Ticker(this.tick)
   }
 
   reset () {
@@ -25,8 +26,8 @@ export default class TrackPlayer {
     this.track = [ ...this._track ]
   }
 
-  tick = (deltaTime) => {
-    this.time += deltaTime * 16.66
+  tick = (frameTime) => {
+    this.time += frameTime
     this.tryPlay()
   }
 
@@ -70,11 +71,11 @@ export default class TrackPlayer {
     }
 
     this.started = true
-    ticker.add(this.tick)
+    this.ticker.subscribe()
   }
 
   end () {
-    ticker.remove(this.tick)
+    this.ticker.unsubscribe()
     this.started = false
     this.onEnd && this.onEnd()
     this.keyUpAll()
@@ -98,14 +99,14 @@ export default class TrackPlayer {
   }
 
   pause () {
-    ticker.remove(this.tick)
+    this.ticker.unsubscribe()
     this.keyUpAll()
     this.onPause && this.onPause()
   }
 
   stop () {
     this.requrcive = false
-    ticker.remove(this.tick)
+    this.ticker.unsubscribe()
     this.keyUpAll()
     this.onStop && this.onStop()
     this.reset()

@@ -1,32 +1,69 @@
 import * as THREE from 'three'
 import { isNumber } from 'lodash'
+import ThreeHelvetick from 'three/examples/fonts/helvetiker_regular.typeface.json'
+
+const loader = new THREE.FontLoader()
+const font = loader.parse(ThreeHelvetick)
 
 export default class {
-  constructor ({ id, width, height, length, color, edgeColor, pressColor }) {
-    const geometry = new THREE.BoxBufferGeometry(width, height, length)
-    const material = new THREE.MeshBasicMaterial({ color })
-    const box = new THREE.Mesh(geometry, material)
+  constructor ({ scene, id, width, height, length, color, edgeColor, pressColor, text }) {
+    this.box = this.getBox(width, height, length, color)
+    this.edges = this.getEdges(this.box, edgeColor)
+    this.text = this.getText(text, height, length)
 
-    const edges = new THREE.EdgesGeometry(box.geometry)
-    const edgesMaterial = new THREE.LineBasicMaterial({ color: edgeColor, linewidth: 4 })
-    const wireframe = new THREE.LineSegments(edges, edgesMaterial)
+    this.box.add(this.edges, this.text)
 
-    box.add(wireframe)
+    scene.add(this.box)
 
     this.id = id
-    this.box = box
     this.isPressed = false
     this.pressDelta = 10
     this.color = color
     this.pressColor = pressColor
+    this.width = width
+    this.height = height
+    this.length = length
   }
-  get () {
-    return this.box
+  getBox (width, height, length, color) {
+    const geometry = new THREE.BoxBufferGeometry(width, height, length)
+    const material = new THREE.MeshBasicMaterial({ color })
+    return new THREE.Mesh(geometry, material)
+  }
+  getEdges (box, edgeColor) {
+    const geometry = new THREE.EdgesGeometry(box.geometry)
+    const material = new THREE.LineBasicMaterial({ color: edgeColor, linewidth: 4 })
+
+    return new THREE.LineSegments(geometry, material)
+  }
+  getText (text, height, length) {
+    const geometry = new THREE.TextBufferGeometry(text.value, {
+      font,
+      size: text.size,
+      height: 1
+    })
+
+    geometry.computeBoundingBox()
+
+    const material = new THREE.MeshBasicMaterial({ color: text.color })
+    const mesh = new THREE.Mesh(geometry, material)
+
+    mesh.position.x = -geometry.boundingBox.max.x / 2
+    mesh.position.y = height / 2
+    mesh.position.z = length / 2 - text.size
+    mesh.rotation.x = -Math.PI / 2
+
+    return mesh
   }
   setPosition ({ x, y, z }) {
     isNumber(x) && (this.box.position.x = x)
-    isNumber(y) && (this.box.position.y = y)
-    isNumber(z) && (this.box.position.z = z)
+
+    if (isNumber(y)) {
+      this.box.position.y = y
+    }
+
+    if (isNumber(z)) {
+      this.box.position.z = z
+    }
   }
   press () {
     const { position, material } = this.box

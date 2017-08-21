@@ -8,7 +8,7 @@
       <i class="mdi md-18 share" @click="share">share</i>
       <input class="link" ref="linkInput" v-model="sharedLink" />
     </div>
-    <div ref="timeline" class="timeline" />
+    <canvas ref="timeline" class="timeline" />
     <div class="buttons">
       <el-button
         v-if="!playing"
@@ -70,7 +70,6 @@
   import * as typesRecords from 'src/store/types/records'
 
   import { last } from 'lodash'
-  import PIXI from 'src/pix'
   import Timeline from 'src/graphic/simple-timeline'
   import TrackPlayer from 'src/modules/track-player'
 
@@ -103,7 +102,7 @@
       this.initTimeline()
     },
     destroyed () {
-      this.app && this.app.destroy()
+      this.timeline = null
     },
     methods: {
       share () {
@@ -118,18 +117,7 @@
           return
         }
 
-        const el = this.$refs.timeline
-        const width = el.offsetWidth
-        const height = el.offsetHeight
-
-        this.app = new PIXI.Application(width, height, { transparent: true })
-        this.app.view.style.position = 'absolute'
-        this.app.view.style.top = '0'
-
-        el.appendChild(this.app.view)
-
-        this.timeline = new Timeline({ width, height, duration })
-        this.app.stage.addChild(this.timeline)
+        this.timeline = new Timeline({ container: this.$refs.timeline, duration })
       },
       check () {
         if (this.isBroken) {
@@ -149,7 +137,7 @@
 
         this.player.play()
       },
-      loop: function () {
+      loop () {
         if (!this.check()) return
         if (!this.player) {
           this.player = this.initPlayer()
