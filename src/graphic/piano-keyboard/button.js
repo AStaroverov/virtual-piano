@@ -31,7 +31,7 @@ export default class {
   }
   getEdges (box, edgeColor) {
     const geometry = new THREE.EdgesGeometry(box.geometry)
-    const material = new THREE.LineBasicMaterial({ color: edgeColor, linewidth: 4 })
+    const material = new THREE.LineBasicMaterial({ color: edgeColor, linewidth: 1 })
 
     return new THREE.LineSegments(geometry, material)
   }
